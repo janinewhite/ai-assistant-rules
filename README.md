@@ -163,7 +163,7 @@ Do not insert an Accomplishment row into the items table when the work finishes.
 
 **#18 Expose known issues for future reevaluation**
 
-When a query, filter, or transformation identifies an issue (duplicate rows, orphan keys, suspect values, parameter-driven exclusions), surface the issue in the output via a flag column, audit table, or visible note rather than silently dropping or normalizing it. Pair the flag with enough context (reason, source, year coverage, etc.) for future reevaluation if conditions change. Do not, however, expand recursive searching to hunt for hypothetical issues that have not been identified — limit instrumentation to known issues, not speculative ones. Together with rule #5 (Surface errors), this keeps the data layer transparent without burning effort on imagined problems.
+When a query, filter, or transformation identifies an issue (duplicate rows, orphan keys, suspect values, parameter-driven exclusions), surface the issue in the output via a flag column, audit table, or visible note rather than silently dropping or normalizing it. Pair the flag with enough context (reason, source, year coverage, etc.) for future reevaluation if conditions change. Do not, however, expand recursive searching to hunt for hypothetical issues that have not been identified — limit instrumentation to known issues, not speculative ones. Together with Surface errors, this keeps the data layer transparent without burning effort on imagined problems.
 
 ---
 
@@ -180,7 +180,7 @@ The rules I've found highest-leverage:
 - **A rule that tells the AI to re-read the rules.** Without it, every other rule is fragile.
 - **A rule about confirmation.** Code I think is done isn't logged as Done until I say so. It is the difference between an Accomplishments log and an "I tried things" log.
 - **A rule about annotation headers.** Every code file opens with Name, Purpose, Summary, Recodes. Combined with versioning, it produces a readable change history.
-- **A rule about versioning.** Files are immutable; changes become new versioned files. Auditability and the ability to revisit useful algorithms that may have been inadvertantly overwritten come from this kind of infrastructure.
+- **A rule about versioning.** Files are immutable; changes become new versioned files. Auditability and the ability to revisit useful algorithms that may have been inadvertently overwritten come from this kind of infrastructure.
 
 The rest builds on those.
 
