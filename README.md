@@ -43,7 +43,7 @@ Rules are retired by setting `active='No'` rather than deleted, so the history o
 
 ## The ruleset
 
-29 active rules across 9 categories. Within each category, rules are listed in the order they currently surface to the AI at session start.
+30 active rules across 9 categories. Within each category, rules are listed in the order they currently surface to the AI at session start.
 
 ---
 
@@ -123,6 +123,12 @@ After any write to a file under the workspace folder, verify the file is complet
 **Cloud-synced file writes — verify after every save**
 
 Files inside cloud-synced project folders (OneDrive, Dropbox, Google Drive sync, iCloud, etc.) can experience silent corruption through two related failure modes: (1) write operations occasionally truncate the trailing portion of a file without raising an error, and (2) the sync client can later overwrite a freshly committed file with a stale cloud version. Both modes affect code files AND binary files (SQLite databases, .docx, .xlsx, .pptx). After every write to a cloud-synced path, verify on disk (tail check, size check, type-specific validity). For SQLite `.db` writes specifically: copy the live DB to a local temp path, make the change there, sleep, copy back, sleep, then re-read from disk and confirm the new row count or `max(id)`. If the read shows the prior state, sync overwrote — retry.
+
+**Record current dates in the user's local timezone** *(active_when: Writing a current date)*
+
+Whenever a "current date" is written — to a DB column (`items.date_entered`, `items.date_completed`, `instructions.date_added`, any version-table date column), to a filename suffix (e.g., `..._snapshot_2026-05-17.html`), or inline in prose ("On 2026-05-17 I..."), use the date in the user's local timezone. The bash sandbox (and many AI execution environments) runs on UTC by default. To get the user's local date, run `TZ='<user's timezone>' date '+%Y-%m-%d'` — for example, `TZ='America/New_York'` or `TZ='Europe/London'` — or adjust the UTC clock by the appropriate offset. Do not record UTC dates by default — when the user is several timezones west of UTC, the UTC date is a day ahead of the user's local date for a portion of every 24-hour cycle, which creates confusion in cross-session recaps and date-based filters.
+
+Hardcode the user's timezone in the rule body if the user isn't planning to move; otherwise carry it in a separate user-context memory and refer to it. Dates that refer to a fixed historical moment (e.g., "the v1 README was published 2025-12-04") keep whatever timezone they were originally recorded in; this rule covers *current* dates only.
 
 **Check Queries folder before requesting code** *(active_when: Working with code)*
 
