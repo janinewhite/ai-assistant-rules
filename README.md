@@ -1,6 +1,8 @@
 # Working Rules for an AI Project Assistant
 *A small ruleset that governs how an AI assistant collaborates on project work — code, documentation, data, and the everyday administrative work that surrounds them*
 
+*The multi-project version is at [centralized-ai-instructions](https://github.com/janinewhite/centralized-ai-instructions). This repo is the foundation pattern — start here if you're new.*
+
 I work with an AI assistant on a mix of project work: data engineering, household healthcare administration, gardening planning, document writing, and the everyday code (Power Query M, DAX, Python, SQL, JavaScript) that supports those projects. The single highest-leverage thing I've built with that assistant isn't any one query or document — it's the working agreement we share, captured as a small set of rules in each project's tracker database.
 
 This README is the current canonical version of that ruleset, in case it's useful to others working in similar conditions.
@@ -255,6 +257,14 @@ The rules I've found highest-leverage:
 - **A rule about verifying writes** when the workspace lives on a cloud-synced folder. Silent truncation and stale-version overwrites are common enough to plan for.
 
 The rest builds on those.
+
+## Where this goes next
+
+After running this pattern across multiple projects, the per-project copy of the rules started chafing — improving a rule meant editing it in five places, wording drifted across copies, new rules I learned in one project sat unused in the others. So I built the next layer: one shared `Instructions.db` that every project reads from, with conditional applicability and an audit log. Same philosophy as this one (local SQLite, queryable, version-controlled, no cloud), with the rule duplication removed.
+
+If one rule table per project starts feeling like duplication, that's the next step: **[centralized-ai-instructions](https://github.com/janinewhite/centralized-ai-instructions)**.
+
+If you're still working out the basics, stay here — this is the foundation pattern, and most readers don't need v2 to get real value out of v1.
 
 ---
 
